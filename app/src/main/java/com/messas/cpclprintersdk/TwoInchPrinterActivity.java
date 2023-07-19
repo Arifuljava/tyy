@@ -54,7 +54,8 @@ public class TwoInchPrinterActivity extends AppCompatActivity implements Adapter
     TextView printtimer;
     Spinner papertype;
     String valueSpinner;
-    @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_inch_printer);

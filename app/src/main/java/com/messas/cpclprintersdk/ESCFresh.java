@@ -7,11 +7,8 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +20,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.CalendarContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -41,9 +37,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -53,11 +47,11 @@ import java.util.UUID;
 
 import es.dmoral.toasty.Toasty;
 
-public class CPCLFresh extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
     EditText quantityProductPage,quantityProductPage_speed;
     SeekBar seekBar;
-TextView progressbarsechk;
-TextView connectedornot;
+    TextView progressbarsechk;
+    TextView connectedornot;
     private BluetoothHelper bluetoothHelper;
     String geeet;
 
@@ -76,10 +70,11 @@ TextView connectedornot;
     String printer_detector;
     Spinner papertype;
     String valueSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_c_p_c_l_fresh);
+        setContentView(R.layout.activity_e_s_c_fresh);
         ScrollView scrollView = findViewById(R.id.scrollView);
         quantityProductPage_speed=findViewById(R.id.quantityProductPage_speed);
         papertype=findViewById(R.id.papertype);
@@ -122,12 +117,12 @@ TextView connectedornot;
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-               // Toast.makeText(getApplicationContext(),"seekbar touch started!", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(),"seekbar touch started!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-             //   Toast.makeText(getApplicationContext(),"seekbar touch stopped!", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getApplicationContext(),"seekbar touch stopped!", Toast.LENGTH_SHORT).show();
             }
         });
         //check connected or not
@@ -145,45 +140,45 @@ TextView connectedornot;
         });
 
         //getdata
-       try {
-           geeet=getIntent().getStringExtra("geeet");
-           if (TextUtils.isEmpty(geeet)|| geeet.equals(null))
-           {
-               geeet="FB:7F:9B:F2:20:B7";
-               connectedornot.setText("Connected");
-               connectedornot.setTextColor(Color.GREEN);
-           }
-           else
-           {
-               geeet=geeet;
-               connectedornot.setText("Connected");
-               connectedornot.setTextColor(Color.GREEN);
-               Drawable drawable=getResources().getDrawable(R.drawable.ic_greenblue);
-               connectedornot.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        try {
+            geeet=getIntent().getStringExtra("geeet");
+            if (TextUtils.isEmpty(geeet)|| geeet.equals(null))
+            {
+                geeet="FB:7F:9B:F2:20:B7";
+                connectedornot.setText("Connected");
+                connectedornot.setTextColor(Color.GREEN);
+            }
+            else
+            {
+                geeet=geeet;
+                connectedornot.setText("Connected");
+                connectedornot.setTextColor(Color.GREEN);
+                Drawable drawable=getResources().getDrawable(R.drawable.ic_greenblue);
+                connectedornot.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
-               Toast.makeText(this, ""+geeet, Toast.LENGTH_SHORT).show();
-           }
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+                Toast.makeText(this, ""+geeet, Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(geeet);
 
-       RelativeLayout printcommand=findViewById(R.id.printcommand);
+        RelativeLayout printcommand=findViewById(R.id.printcommand);
         printcommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String BlueMac = "FB:7F:9B:F2:20:B7";
 
-                Toast.makeText(CPCLFresh.this, ""+geeet, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ESCFresh.this, ""+geeet, Toast.LENGTH_SHORT).show();
                 mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
                 mBluetoothAdapter = mBluetoothManager.getAdapter();
                 final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
                 ///Toasty.info(getApplicationContext(),"Please active bluetooth"+mBluetoothAdapter.isEnabled(),Toasty.LENGTH_SHORT,true).show();
                 if (!mBluetoothAdapter.isEnabled()) {
                     Toasty.info(getApplicationContext(), "Please active bluetooth", Toasty.LENGTH_SHORT, true).show();
-                    android.app.AlertDialog.Builder mybuilder = new android.app.AlertDialog.Builder(CPCLFresh.this);
+                    android.app.AlertDialog.Builder mybuilder = new android.app.AlertDialog.Builder(ESCFresh.this);
                     mybuilder.setTitle("Confirmation")
                             .setMessage("Do you want to active bluetooth");
                     mybuilder.setPositiveButton("Not Now", new DialogInterface.OnClickListener() {
@@ -195,7 +190,7 @@ TextView connectedornot;
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            if (ActivityCompat.checkSelfPermission(CPCLFresh.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.checkSelfPermission(ESCFresh.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                                 mBluetoothAdapter.enable();
                                 Toasty.info(getApplicationContext(), "Bluetooth is active now.", Toasty.LENGTH_SHORT, true).show();
                             } else {
@@ -271,7 +266,7 @@ TextView connectedornot;
     private  byte[]  BitmapToRGBbyteA(Bitmap bitmapOrg) {
         ArrayList<Byte> Gray_ArrayList;
         Gray_ArrayList =new ArrayList<Byte>();
-        int height = 1080;
+        int height =1080;
         if(bitmapOrg.getHeight()>height)
         {
             height=1080;
@@ -280,7 +275,7 @@ TextView connectedornot;
         {
             height=bitmapOrg.getHeight();
         }
-        int width =30;
+        int width =bitmapOrg.getWidth();
         int R = 0, B = 0, G = 0;
         //int pixles;
         int []pixels = new int[width * height];
@@ -383,13 +378,14 @@ TextView connectedornot;
         return null;
     }
     int bitmapHeight = 1080;
+    int bitmapWidth=384;
     OutputStream os = null;
 
     private void printImage1() {
         //  final Bitmap bitmap = bitmapdataMe;
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.testing);
-        float scax=30f /bitmap.getWidth();
-        float scaly= 30f / bitmap.getHeight();
+        float scax=1.0f;//384f /bitmap.getWidth();
+        float scaly=1.0f; //384f / bitmap.getHeight();
         Log.e("dolon",""+bitmap);
         Log.e("zzz",""+bitmap.getWidth());
         Log.e("zzz",""+bitmap.getHeight());
@@ -414,7 +410,7 @@ TextView connectedornot;
             public void run() {
                 try {
                     /// Toast.makeText(AssenTaskDounwActivity.this, "Done", Toast.LENGTH_SHORT).show();
-                    if (ActivityCompat.checkSelfPermission(CPCLFresh.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(ESCFresh.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                         m5ocket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                         m5ocket.connect();
 
@@ -428,6 +424,7 @@ TextView connectedornot;
                         {
                             bitmapHeight=resize.getHeight();
                         }
+                        bitmapWidth=resize.getWidth();
                         Log.e("Ariful1",""+resize.getWidth());
                         Log.e("Ariful2",""+resize.getHeight());
                         Log.e("Ariful3",""+bitmap);
@@ -435,89 +432,209 @@ TextView connectedornot;
                         int sendingnumber=random.nextInt(10);
                         int mimisecond=sendingnumber*1000;
 
-for (int i=1;i<=Integer.parseInt(quantityProductPage.getText().toString());i++){
-    new Handler(Looper.getMainLooper()).post(new Runnable() {
-        @Override
-        public void run() {
-            // write your code here
-            countDownTimer =new CountDownTimer(2000,1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
+                        for (int i=1;i<=Integer.parseInt(quantityProductPage.getText().toString());i++){
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // write your code here
+                                    countDownTimer =new CountDownTimer(2000,1000) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
 
-                    double seconddd=millisUntilFinished/1000;
-                    printtimer.setText("Sending Data : "+seconddd+" S");
-
-
-
-                }
-
-                @Override
-                public void onFinish() {
-                    try {
-                        String t_line1 = "! 0 200 200 "+bitmapHeight+" 1 \r\n";//bitmap.getHeight()
-                        String t_line2 = "pw "+30+"\r\n";
-                        String t_line3 = "DENSITY 12\r\n";
-                        String t_line4 = "SPEED 9\r\n";
-                        String t_line5 = "CG "+30/8+" "+bitmapHeight+" 0 0 ";
-                        String t_line6 ="PR 0\r\n";
-                        String t_line7= "FORM\r\n";
-                        String t_line8 = "PRINT\r\n";
-                        String t_line9 = "\r\n";
-                        os.write(t_line1.getBytes());
-                        os.write(t_line2.getBytes());
-                        os.write(t_line3.getBytes());
-                        os .write(t_line4.getBytes());
-                        os .write(t_line5.getBytes());
-
-                        os.write(bitmapGetByte);
-                        os .write(t_line9.getBytes());
-                        os .write(t_line6.getBytes());
-                        os.write(t_line7.getBytes());
-                        os.write(t_line8.getBytes());
-                        Log.e("Ariful5","PrintCommand");
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e("Ariful6",""+e.getMessage());
-                    }
-                    countDownTimer1=new CountDownTimer(1000,1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            long second=  (millisUntilFinished/1000);
-                            int mysecond=Integer.parseInt(String.valueOf(second));
+                                            double seconddd=millisUntilFinished/1000;
+                                            printtimer.setText("Sending Data : "+seconddd+" S");
 
 
 
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            try {
+                                                //=======================================
+//                                                String t_line1 = "! 0 200 200 "+bitmapHeight+" 1 \r\n";//bitmap.getHeight()
+//                                                String t_line2 = "pw "+30+"\r\n";
+//                                                String t_line3 = "DENSITY 12\r\n";
+//                                                String t_line4 = "SPEED 9\r\n";
+//                                                String t_line5 = "CG "+30/8+" "+bitmapHeight+" 0 0 ";
+//                                                String t_line6 ="PR 0\r\n";
+//                                                String t_line7= "FORM\r\n";
+//                                                String t_line8 = "PRINT\r\n";
+//                                                String t_line9 = "\r\n";
+//                                                os.write(t_line1.getBytes());
+//                                                os.write(t_line2.getBytes());
+//                                                os.write(t_line3.getBytes());
+//                                                os .write(t_line4.getBytes());
+//                                                os .write(t_line5.getBytes());
+//
+//                                                os.write(bitmapGetByte);
+//                                                os .write(t_line9.getBytes());
+//                                                os .write(t_line6.getBytes());
+//                                                os.write(t_line7.getBytes());
+//                                                os.write(t_line8.getBytes());
+
+
+                                                int StartInt=0;
+                                                int PrintSpeedNow=3;
+                                                int PrintDensityNow=15;
+                                                int PrintPaperTypeNow=0;
+                                                StartInt=0x1d;
+                                                //Gray_Arraylist.add((byte)StartInt);
+                                                os.write((byte)StartInt);
+                                                StartInt=0x0e;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x1c;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x60;
+                                                os.write((byte)StartInt);
+
+                                                StartInt=0x4D;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x53;
+                                                os.write((byte)StartInt);
+
+//        0x01: 极速
+//        0x0b: 超高速
+//        0x15: 高速
+//        0x1f: 标准
+//        0x29: 清晰
+//        0x33: 高清
+                                                if(PrintSpeedNow==6)
+                                                {
+                                                    StartInt=0x01;//PrintSpeedNow
+                                                }
+                                                else if(PrintSpeedNow==5)
+                                                {
+                                                    StartInt=0x0b;
+                                                }
+                                                else if(PrintSpeedNow==4)
+                                                {
+                                                    StartInt=0x15;
+                                                }
+                                                else if(PrintSpeedNow==3)
+                                                {
+                                                    StartInt=0x1f;
+                                                }
+                                                else if(PrintSpeedNow==2)
+                                                {
+                                                    StartInt=0x29;
+                                                }
+                                                else
+                                                {
+                                                    StartInt=0x33;
+                                                }
+
+                                                os.write((byte)StartInt);
+
+//        //打印浓度
+//        bufImage[7]=0x1c
+//        bufImage[8]=0x60
+//        bufImage[9]=0x7E
+//        bufImage[10]=0x7E
+//        bufImage[11]=blackSet
+
+                                                StartInt=0x1c;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x60;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x7E;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x7E;
+                                                os.write((byte)StartInt);
+                                                StartInt=PrintDensityNow+0;//PrintDensityNow
+                                                os.write((byte)StartInt);
+
+                                                //连续纸张
+                                                StartInt=0x1c;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x60;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x50;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x50;
+                                                os.write((byte)StartInt);
+                                                StartInt=PrintPaperTypeNow+0;
+                                                os.write((byte)StartInt);
+
+
+                                                StartInt=0x1d;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x76;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x30;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x00;
+                                                os.write((byte)StartInt);
+                                                int widthH=bitmapWidth/8/256;
+                                                int widthL=bitmapWidth/8%256;
+                                                int heightH=bitmapHeight/256;
+                                                int heightL=bitmapHeight%256;
+                                                StartInt=widthL+0;//PrintDensityNow
+                                                os.write((byte)StartInt);
+                                                StartInt=widthH+0;//PrintDensityNow
+                                                os.write((byte)StartInt);
+                                                StartInt=heightL+0;//PrintDensityNow
+                                                os.write((byte)StartInt);
+                                                StartInt=heightH+0;//PrintDensityNow
+                                                os.write((byte)StartInt);
+
+
+                                                os.write(bitmapGetByte);
+
+                                                StartInt=0x1c;
+                                                os.write((byte)StartInt);
+                                                StartInt=0x5e;
+                                                os.write((byte)StartInt);
+
+
+
+
+
+                                                //============================================================
+                                                Log.e("Ariful5","PrintCommand");
+                                            }catch (Exception e) {
+                                                e.printStackTrace();
+                                                Log.e("Ariful6",""+e.getMessage());
+                                            }
+                                            countDownTimer1=new CountDownTimer(1000,1000) {
+                                                @Override
+                                                public void onTick(long millisUntilFinished) {
+                                                    long second=  (millisUntilFinished/1000);
+                                                    int mysecond=Integer.parseInt(String.valueOf(second));
+
+
+
+                                                }
+
+                                                @Override
+                                                public void onFinish() {
+
+                                                    printtimer.setText("Print Out");
+                                                    try {
+
+                                                        os.flush();
+                                                        os.flush();
+                                                        m5ocket.close();
+                                                        Log.e("Ariful7","Go to print");
+
+                                                    }catch (Exception e) {
+                                                        e.printStackTrace();
+                                                        Log.e("Ariful8",""+e.getMessage());
+                                                    }
+
+                                                    Toasty.success(getApplicationContext(),"Data Sending Complete",Toasty.LENGTH_SHORT,true).show();
+                                                    return;
+                                                }
+                                            }.start();
+                                            countDownTimer1.start();
+
+
+                                        }
+                                    };
+                                    countDownTimer.start();
+                                }
+                            });
                         }
-
-                        @Override
-                        public void onFinish() {
-
-                            printtimer.setText("Print Out");
-                            try {
-
-                                os.flush();
-                                os.flush();
-                                m5ocket.close();
-                                Log.e("Ariful7","Go to print");
-
-                            }catch (Exception e) {
-                                e.printStackTrace();
-                                Log.e("Ariful8",""+e.getMessage());
-                            }
-
-                            Toasty.success(getApplicationContext(),"Data Sending Complete",Toasty.LENGTH_SHORT,true).show();
-                            return;
-                        }
-                    }.start();
-                    countDownTimer1.start();
-
-
-                }
-            };
-            countDownTimer.start();
-        }
-    });
-}
 
                     }
                     else {
