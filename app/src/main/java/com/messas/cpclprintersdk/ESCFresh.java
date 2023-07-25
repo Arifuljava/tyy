@@ -383,9 +383,10 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
 
     private void printImage1() {
         //  final Bitmap bitmap = bitmapdataMe;
+
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.testing);
-        float scax=1.0f;//384f /bitmap.getWidth();
-        float scaly=1.0f; //384f / bitmap.getHeight();
+        float scax=384f /bitmap.getWidth();
+        float scaly=384f / bitmap.getHeight();
         Log.e("dolon",""+bitmap);
         Log.e("zzz",""+bitmap.getWidth());
         Log.e("zzz",""+bitmap.getHeight());
@@ -402,9 +403,6 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(BlueMac);
-        ///
-
-        ////
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -432,6 +430,8 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                         int sendingnumber=random.nextInt(10);
                         int mimisecond=sendingnumber*1000;
 
+
+
                         for (int i=1;i<=Integer.parseInt(quantityProductPage.getText().toString());i++){
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
@@ -451,27 +451,7 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                         @Override
                                         public void onFinish() {
                                             try {
-                                                //=======================================
-//                                                String t_line1 = "! 0 200 200 "+bitmapHeight+" 1 \r\n";//bitmap.getHeight()
-//                                                String t_line2 = "pw "+30+"\r\n";
-//                                                String t_line3 = "DENSITY 12\r\n";
-//                                                String t_line4 = "SPEED 9\r\n";
-//                                                String t_line5 = "CG "+30/8+" "+bitmapHeight+" 0 0 ";
-//                                                String t_line6 ="PR 0\r\n";
-//                                                String t_line7= "FORM\r\n";
-//                                                String t_line8 = "PRINT\r\n";
-//                                                String t_line9 = "\r\n";
-//                                                os.write(t_line1.getBytes());
-//                                                os.write(t_line2.getBytes());
-//                                                os.write(t_line3.getBytes());
-//                                                os .write(t_line4.getBytes());
-//                                                os .write(t_line5.getBytes());
-//
-//                                                os.write(bitmapGetByte);
-//                                                os .write(t_line9.getBytes());
-//                                                os .write(t_line6.getBytes());
-//                                                os.write(t_line7.getBytes());
-//                                                os.write(t_line8.getBytes());
+
 
 
                                                 int StartInt=0;
@@ -492,13 +472,6 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                                 os.write((byte)StartInt);
                                                 StartInt=0x53;
                                                 os.write((byte)StartInt);
-
-//        0x01: 极速
-//        0x0b: 超高速
-//        0x15: 高速
-//        0x1f: 标准
-//        0x29: 清晰
-//        0x33: 高清
                                                 if(PrintSpeedNow==6)
                                                 {
                                                     StartInt=0x01;//PrintSpeedNow
@@ -523,16 +496,7 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                                 {
                                                     StartInt=0x33;
                                                 }
-
                                                 os.write((byte)StartInt);
-
-//        //打印浓度
-//        bufImage[7]=0x1c
-//        bufImage[8]=0x60
-//        bufImage[9]=0x7E
-//        bufImage[10]=0x7E
-//        bufImage[11]=blackSet
-
                                                 StartInt=0x1c;
                                                 os.write((byte)StartInt);
                                                 StartInt=0x60;
@@ -543,8 +507,6 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                                 os.write((byte)StartInt);
                                                 StartInt=PrintDensityNow+0;//PrintDensityNow
                                                 os.write((byte)StartInt);
-
-                                                //连续纸张
                                                 StartInt=0x1c;
                                                 os.write((byte)StartInt);
                                                 StartInt=0x60;
@@ -555,8 +517,6 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                                 os.write((byte)StartInt);
                                                 StartInt=PrintPaperTypeNow+0;
                                                 os.write((byte)StartInt);
-
-
                                                 StartInt=0x1d;
                                                 os.write((byte)StartInt);
                                                 StartInt=0x76;
@@ -577,20 +537,11 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
                                                 os.write((byte)StartInt);
                                                 StartInt=heightH+0;//PrintDensityNow
                                                 os.write((byte)StartInt);
-
-
                                                 os.write(bitmapGetByte);
-
                                                 StartInt=0x1c;
                                                 os.write((byte)StartInt);
                                                 StartInt=0x5e;
                                                 os.write((byte)StartInt);
-
-
-
-
-
-                                                //============================================================
                                                 Log.e("Ariful5","PrintCommand");
                                             }catch (Exception e) {
                                                 e.printStackTrace();
@@ -669,6 +620,7 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+
     }
     public void decrement_speed(View view) {
         int value = Integer.parseInt(quantityProductPage_speed.getText().toString());
@@ -692,3 +644,7 @@ public class ESCFresh extends AppCompatActivity  implements AdapterView.OnItemSe
         }
     }
 }
+
+
+
+
